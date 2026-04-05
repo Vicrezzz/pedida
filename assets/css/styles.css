@@ -85,7 +85,7 @@
       background: linear-gradient(145deg,
               rgba(107, 26, 42, 0.6),
               rgba(74, 14, 26, 0.8));
-      border: 1px solid rgba(201, 169, 110, 0.3);
+      border: 1px solid var(--gold);
       border-radius: 2px;
       padding: 2.8rem 2.5rem;
       text-align: center;
@@ -435,9 +435,9 @@
       bottom: calc(1.2rem + env(safe-area-inset-bottom));
       left: 50%;
       transform: translateX(-50%);
-      background: rgba(107, 26, 42, 0.75);
-      border: 1px solid rgba(201, 169, 110, 0.2);
-      color: var(--blush);
+      background: rgba(107, 26, 42, 0.65);
+      border: 1px solid var(--gold);
+      color: var(--cream);
       font-family: "Cormorant Garamond", serif;
       font-style: italic;
       font-size: 0.85rem;
@@ -449,7 +449,19 @@
       /* purely decorative — no interaction */
       opacity: 0;
       transition: opacity 0.8s ease;
-      border-radius: 1px;
+      border-radius: 10px;
+      /* Alineación del Icono y Texto */
+      display: flex;
+      align-items: center;
+      gap: 10px;
+  }
+
+  .music-icon {
+      width: 20px;
+      height: 20px;
+      color: var(--gold);
+      filter: drop-shadow(0 0 2px rgba(201, 169, 110, 0.4));
+      flex-shrink: 0;
   }
 
   #audio-badge.show {
