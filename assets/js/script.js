@@ -53,6 +53,7 @@ const ticker = setInterval(() => {
         countdownText.classList.add("hidden");
         continueBtn.disabled = false;
         continueBtn.classList.add("active");
+        document.querySelector(".popup-card").classList.add("active");
     }
 }, 1000);
 
