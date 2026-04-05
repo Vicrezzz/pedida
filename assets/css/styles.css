@@ -1,0 +1,505 @@
+  :root {
+      --burgundy: #6b1a2a;
+      --burgundy-deep: #4a0e1a;
+      --burgundy-mid: #8b2438;
+      --rose: #c4485c;
+      --blush: #e8a0aa;
+      --cream: #fdf6f0;
+      --gold: #c9a96e;
+  }
+
+  * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+  }
+
+  html,
+  body {
+      background: var(--burgundy-deep);
+      font-family: "Cormorant Garamond", serif;
+      overflow: hidden;
+      /* dvh = dynamic viewport height, handles iOS Safari chrome correctly */
+      height: 100dvh;
+      width: 100vw;
+      position: relative;
+      /* Safe area padding for notch / home indicator */
+      padding-top: env(safe-area-inset-top);
+      padding-bottom: env(safe-area-inset-bottom);
+  }
+
+  /* ── Background particles ─────────────────────────────────── */
+  .bg-hearts {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+  }
+
+  .bg-heart {
+      position: absolute;
+      opacity: 0.08;
+      animation: floatUp linear infinite;
+      user-select: none;
+  }
+
+  @keyframes floatUp {
+      0% {
+          transform: translateY(110dvh) rotate(0deg);
+          opacity: 0;
+      }
+
+      10% {
+          opacity: 0.08;
+      }
+
+      90% {
+          opacity: 0.08;
+      }
+
+      100% {
+          transform: translateY(-10dvh) rotate(360deg);
+          opacity: 0;
+      }
+  }
+
+  /* ── Popup overlay ────────────────────────────────────────── */
+  #popup-overlay {
+      position: fixed;
+      inset: 0;
+      background: radial-gradient(ellipse at center,
+              #4a0e1a 0%,
+              #1a0508 100%);
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 2.2rem;
+      padding: 1.5rem;
+  }
+
+  .popup-card {
+      background: linear-gradient(145deg,
+              rgba(107, 26, 42, 0.6),
+              rgba(74, 14, 26, 0.8));
+      border: 1px solid rgba(201, 169, 110, 0.3);
+      border-radius: 2px;
+      padding: 2.8rem 2.5rem;
+      text-align: center;
+      width: 100%;
+      max-width: 400px;
+      box-shadow:
+          0 0 60px rgba(107, 26, 42, 0.5),
+          inset 0 1px 0 rgba(201, 169, 110, 0.15);
+      position: relative;
+  }
+
+  .popup-card::before {
+      content: "";
+      position: absolute;
+      inset: 8px;
+      border: 1px solid rgba(201, 169, 110, 0.1);
+      border-radius: 1px;
+      pointer-events: none;
+  }
+
+  .popup-ornament {
+      font-size: 2.4rem;
+      line-height: 1;
+      margin-bottom: 1.2rem;
+      display: block;
+      animation: pulse-glow 2s ease-in-out infinite;
+  }
+
+  @keyframes pulse-glow {
+
+      0%,
+      100% {
+          filter: drop-shadow(0 0 8px rgba(201, 169, 110, 0.4));
+      }
+
+      50% {
+          filter: drop-shadow(0 0 22px rgba(201, 169, 110, 0.8));
+      }
+  }
+
+  .popup-title {
+      font-family: "Playfair Display", serif;
+      font-style: italic;
+      font-size: clamp(1.9rem, 8vw, 2.8rem);
+      color: var(--cream);
+      letter-spacing: 0.02em;
+      line-height: 1.2;
+      margin-bottom: 0.5rem;
+  }
+
+  .popup-subtitle {
+      font-style: italic;
+      font-size: clamp(0.95rem, 3.5vw, 1.1rem);
+      color: var(--blush);
+      opacity: 0.8;
+      letter-spacing: 0.08em;
+  }
+
+  .continue-wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.6rem;
+      width: 100%;
+      max-width: 400px;
+  }
+
+  #countdown-text {
+      font-style: italic;
+      font-size: 0.85rem;
+      color: var(--blush);
+      opacity: 0.6;
+      letter-spacing: 0.15em;
+      height: 1.2em;
+      transition: opacity 0.5s;
+  }
+
+  #countdown-text.hidden {
+      opacity: 0;
+  }
+
+  #continue-btn {
+      width: 100%;
+      background: transparent;
+      border: 1px solid var(--gold);
+      color: var(--gold);
+      font-family: "Cormorant Garamond", serif;
+      font-size: 1.05rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      padding: 1rem 2rem;
+      cursor: not-allowed;
+      opacity: 0.35;
+      transition: all 0.6s ease;
+      /* Larger touch target */
+      min-height: 52px;
+  }
+
+  #continue-btn.active {
+      cursor: pointer;
+      opacity: 1;
+      box-shadow: 0 0 20px rgba(201, 169, 110, 0.2);
+  }
+
+  /* ── Main page ────────────────────────────────────────────── */
+  #main-page {
+      position: fixed;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 1.8rem;
+      padding: 1.5rem 1.5rem calc(1.5rem + env(safe-area-inset-bottom));
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 1s ease;
+      z-index: 10;
+  }
+
+  #main-page.visible {
+      opacity: 1;
+      pointer-events: all;
+  }
+
+  .main-ornament {
+      font-size: 2.8rem;
+      animation: pulse-glow 2s ease-in-out infinite;
+      line-height: 1;
+  }
+
+  .main-title {
+      font-family: "Playfair Display", serif;
+      font-size: clamp(2.2rem, 10vw, 4.5rem);
+      color: var(--cream);
+      text-align: center;
+      letter-spacing: 0.04em;
+      line-height: 1.15;
+      text-shadow:
+          0 0 40px rgba(196, 72, 92, 0.4),
+          0 2px 4px rgba(0, 0, 0, 0.5);
+      animation: fadeUp 1.2s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+
+  .main-title span {
+      color: var(--rose);
+      font-style: italic;
+  }
+
+  .subtitle {
+      font-style: italic;
+      font-size: clamp(0.95rem, 3.5vw, 1.2rem);
+      color: var(--blush);
+      opacity: 0.7;
+      letter-spacing: 0.08em;
+      text-align: center;
+      animation: fadeUp 1.4s 0.2s cubic-bezier(0.16, 1, 0.3, 1) both;
+      padding: 0 1rem;
+  }
+
+  @keyframes fadeUp {
+      0% {
+          opacity: 0;
+          transform: translateY(16px);
+      }
+
+      100% {
+          opacity: 1;
+          transform: translateY(0);
+      }
+  }
+
+  .deco-row {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+  }
+
+  .deco-line {
+      width: 70px;
+      height: 1px;
+      background: linear-gradient(90deg,
+              transparent,
+              var(--gold),
+              transparent);
+      opacity: 0.4;
+  }
+
+  .deco-diamond {
+      width: 5px;
+      height: 5px;
+      background: var(--gold);
+      transform: rotate(45deg);
+      opacity: 0.5;
+      flex-shrink: 0;
+  }
+
+  /* ── Buttons ──────────────────────────────────────────────── */
+  /*
+    SÍ sits in normal flow inside #main-page.
+    NO is position:fixed and placed via JS next to SÍ on reveal.
+    A hidden placeholder reserves the space so the row stays centered.
+  */
+  .buttons-row {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: center;
+      gap: 1.2rem;
+      animation: fadeUp 1.4s 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+
+  .btn-si {
+      background: linear-gradient(135deg, var(--burgundy-mid), var(--rose));
+      border: none;
+      color: var(--cream);
+      font-family: "Playfair Display", serif;
+      font-size: clamp(1.2rem, 5vw, 1.5rem);
+      letter-spacing: 0.1em;
+      padding: 1rem 2.8rem;
+      cursor: pointer;
+      border-radius: 1px;
+      box-shadow:
+          0 4px 20px rgba(139, 36, 56, 0.6),
+          inset 0 1px 0 rgba(255, 255, 255, 0.15);
+      transition:
+          transform 0.2s ease,
+          box-shadow 0.2s ease;
+      flex-shrink: 0;
+      min-height: 54px;
+      /* comfortable touch target */
+      position: relative;
+      overflow: hidden;
+  }
+
+  .btn-si:active {
+      transform: scale(0.97);
+      box-shadow: 0 2px 12px rgba(139, 36, 56, 0.5);
+  }
+
+  /* Placeholder mirrors btn-no size so the row stays centered */
+  #btn-no-ph {
+      width: 100px;
+      height: 54px;
+      visibility: hidden;
+      flex-shrink: 0;
+  }
+
+  /* NO button — fixed, roams the viewport */
+  #btn-no {
+      position: fixed;
+      display: none;
+      /* shown after main page appears */
+      background: transparent;
+      border: 1px solid rgba(201, 169, 110, 0.3);
+      color: rgba(201, 169, 110, 0.6);
+      font-family: "Cormorant Garamond", serif;
+      font-size: clamp(0.95rem, 3.5vw, 1.1rem);
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      padding: 0.85rem 1.8rem;
+      cursor: pointer;
+      border-radius: 1px;
+      /* transition only position, not display */
+      transition:
+          left 0.2s ease,
+          top 0.2s ease,
+          opacity 0.5s,
+          transform 0.5s;
+      z-index: 20;
+      white-space: nowrap;
+      min-height: 54px;
+      transform-origin: center;
+      /* disable text selection on repeated taps */
+      user-select: none;
+      -webkit-user-select: none;
+  }
+
+  /* ── Success screen ───────────────────────────────────────── */
+  #success-screen {
+      position: fixed;
+      inset: 0;
+      background: radial-gradient(ellipse at center,
+              #5a0e1e 0%,
+              #1a0508 100%);
+      z-index: 200;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 1.5rem;
+      padding: 2rem 1.5rem;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 1s ease;
+  }
+
+  #success-screen.visible {
+      opacity: 1;
+      pointer-events: all;
+  }
+
+  .success-title {
+      font-family: "Playfair Display", serif;
+      font-size: clamp(2.2rem, 10vw, 5rem);
+      color: var(--cream);
+      text-align: center;
+      font-style: italic;
+      text-shadow: 0 0 60px rgba(196, 72, 92, 0.6);
+      animation: fadeUp 1s ease both;
+  }
+
+  .success-sub {
+      font-size: clamp(1rem, 4vw, 1.6rem);
+      color: var(--blush);
+      font-style: italic;
+      opacity: 0.85;
+      text-align: center;
+      letter-spacing: 0.05em;
+      padding: 0 1rem;
+  }
+
+  /* ── Flying hearts ────────────────────────────────────────── */
+  .flying-heart {
+      position: fixed;
+      pointer-events: none;
+      animation: fly-heart ease-out forwards;
+      z-index: 300;
+      user-select: none;
+  }
+
+  @keyframes fly-heart {
+      0% {
+          transform: translateY(0) scale(0.5) rotate(0deg);
+          opacity: 1;
+      }
+
+      100% {
+          transform: translateY(-90dvh) scale(1.6) rotate(var(--rot));
+          opacity: 0;
+      }
+  }
+
+  /* ── Audio badge (purely decorative) ─────────────────────── */
+  #audio-badge {
+      position: fixed;
+      bottom: calc(1.2rem + env(safe-area-inset-bottom));
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(107, 26, 42, 0.75);
+      border: 1px solid rgba(201, 169, 110, 0.2);
+      color: var(--blush);
+      font-family: "Cormorant Garamond", serif;
+      font-style: italic;
+      font-size: 0.85rem;
+      padding: 0.55rem 1.3rem;
+      z-index: 500;
+      letter-spacing: 0.06em;
+      white-space: nowrap;
+      pointer-events: none;
+      /* purely decorative — no interaction */
+      opacity: 0;
+      transition: opacity 0.8s ease;
+      border-radius: 1px;
+  }
+
+  #audio-badge.show {
+      opacity: 1;
+  }
+
+  /* ── iPhone-specific tweaks ───────────────────────────────── */
+
+  /* iPhone 13 mini: 375 × 812 */
+  @media (max-width: 375px) {
+      .popup-card {
+          padding: 2.2rem 1.6rem;
+      }
+
+      .popup-title {
+          font-size: 1.75rem;
+      }
+
+      .main-title {
+          font-size: 2rem;
+      }
+
+      .main-ornament {
+          font-size: 2.4rem;
+      }
+
+      #main-page {
+          gap: 1.4rem;
+      }
+  }
+
+  /* iPhone 13 / 14: 390 × 844 */
+  @media (min-width: 376px) and (max-width: 393px) {
+      .main-title {
+          font-size: 2.4rem;
+      }
+  }
+
+  /* iPhone 13 Pro Max / 14 Plus / 14 Pro Max: 428–430 */
+  @media (min-width: 428px) {
+      .main-title {
+          font-size: 2.9rem;
+      }
+
+      .popup-title {
+          font-size: 2.5rem;
+      }
+
+      .btn-si {
+          font-size: 1.5rem;
+          padding: 1.1rem 3.2rem;
+      }
+  }
