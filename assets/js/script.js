@@ -1,7 +1,7 @@
 
 // ── Background hearts ─────────────────────────────────────────
 const bgEl = document.getElementById("bg-hearts");
-const ePool = ["♥", "💕", "💗", "💓", "🌹", "✿", "❣"];
+const ePool = ["♥", "💕", "💗", "💓", "🌹", "✿", "❣", "💞"];
 for (let i = 0; i < 28; i++) {
     const h = document.createElement("div");
     h.className = "bg-heart";
