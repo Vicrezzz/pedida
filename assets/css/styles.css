@@ -461,11 +461,10 @@
       gap: 10px;
   }
 
-  .music-icon {
+  .music-icon-gradient {
       width: 20px;
       height: 20px;
-      color: var(--gold);
-      filter: drop-shadow(0 0 2px rgba(201, 169, 110, 0.4));
+      filter: drop-shadow(0 0 1px rgba(252, 246, 186, 0.5));
       flex-shrink: 0;
   }
 
