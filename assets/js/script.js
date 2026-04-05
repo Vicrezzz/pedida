@@ -39,10 +39,10 @@ function tryPlay() {
 // Show decorative badge after 1.5 s (always visible, just cosmetic)
 setTimeout(() => badge.classList.add("show"), 1500);
 
-// ── Countdown 30 s ────────────────────────────────────────────
+// ── Countdown 25 s ────────────────────────────────────────────
 const continueBtn = document.getElementById("continue-btn");
 const countdownText = document.getElementById("countdown-text");
-let secs = 30;
+let secs = 25;
 
 const ticker = setInterval(() => {
     secs--;
