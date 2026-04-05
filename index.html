@@ -67,7 +67,44 @@
     </div>
 
     <!-- Decorative audio badge — purely visual, no interaction -->
-    <div id="audio-badge">🎵 Reproduciendo M.A.I — Milo J</div>
+    <div
+      id="audio-badge"
+      style="
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-family: sans-serif;
+      "
+    >
+      <svg
+        width="20"
+        height="20"
+        viewBox="0 0 24 24"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <defs>
+          <linearGradient
+            id="gold-gradient"
+            x1="0%"
+            y1="0%"
+            x2="100%"
+            y2="100%"
+          >
+            <stop offset="0%" style="stop-color: #bf953f; stop-opacity: 1" />
+            <stop offset="25%" style="stop-color: #fcf6ba; stop-opacity: 1" />
+            <stop offset="50%" style="stop-color: #b38728; stop-opacity: 1" />
+            <stop offset="75%" style="stop-color: #fbf5b7; stop-opacity: 1" />
+            <stop offset="100%" style="stop-color: #aa771c; stop-opacity: 1" />
+          </linearGradient>
+        </defs>
+        <path
+          d="M12 3V13.55C11.41 13.21 10.73 13 10 13C7.79 13 6 14.79 6 17C6 19.21 7.79 21 10 21C12.21 21 14 19.21 14 17V7H18V3H12Z"
+          fill="url(#gold-gradient)"
+        />
+      </svg>
+      <span>Reproduciendo M.A.I — Milo J</span>
+    </div>
 
     <!--
   ════════════════════════════════════════════
